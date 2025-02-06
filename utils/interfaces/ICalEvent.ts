@@ -6,4 +6,5 @@ export default interface ICalEvent {
   topic: string;
   start: string;
   end: string;
+  locations: string[];
 }

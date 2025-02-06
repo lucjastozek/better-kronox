@@ -31,6 +31,7 @@ export default function Home() {
           topic={event.topic}
           startHour={DateTime.fromISO(event.start).toFormat("HH:mm")}
           endHour={DateTime.fromISO(event.end).toFormat("HH:mm")}
+          locations={event.locations}
         />
       ))}
     </main>

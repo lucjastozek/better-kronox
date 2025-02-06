@@ -3,6 +3,7 @@ interface EventProps {
   endHour: string;
   topic: string;
   teachers: string[];
+  locations: string[];
 }
 
 export default function Event({
@@ -10,6 +11,7 @@ export default function Event({
   endHour,
   topic,
   teachers,
+  locations,
 }: EventProps) {
   return (
     <div className="event">
@@ -20,9 +22,20 @@ export default function Event({
         </h3>
       </div>
       <div>
-        {teachers.map((teacher, i) => (
-          <p key={i}>👤 {teacher}</p>
-        ))}
+        {teachers[0] !== null && (
+          <div>
+            {teachers.map((teacher, i) => (
+              <p key={i}>👤 {teacher}</p>
+            ))}
+          </div>
+        )}
+        {locations[0] !== "" && (
+          <div>
+            {locations.map((location, i) => (
+              <p key={i}>🏫 {location}</p>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

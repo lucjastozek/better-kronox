@@ -64,6 +64,8 @@ async function parseIcalData(
         const signatureMatch = summary.match(/Sign:\s*([\w\s\d]+) Moment/);
         const signature = signatureMatch ? signatureMatch[1] : "";
 
+        const locations = event.location?.split(" ") ?? [];
+
         const topicMatch = summary.match(/Moment:\s*(.+) Aktivitetstyp/);
         const topic = topicMatch ? topicMatch[1] : "";
 
@@ -81,6 +83,7 @@ async function parseIcalData(
           topic,
           start,
           end,
+          locations,
         };
       });
 
