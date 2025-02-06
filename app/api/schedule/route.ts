@@ -2,16 +2,7 @@ import { NextResponse } from "next/server";
 import axios from "axios";
 import ical from "ical";
 import * as cheerio from "cheerio";
-
-interface ICalData {
-  summary: string;
-  programme: string[];
-  course: string;
-  signature: string[];
-  topic: string;
-  start: Date;
-  end: Date;
-}
+import ICalEvent from "@/utils/interfaces/ICalEvent";
 
 const PARAMS =
   "startDatum=idag&intervallTyp=a&intervallAntal=1&forklaringar=true&sokMedAND=false&resurser=k.KD400C-20251-K3943-%2Cp.TGIDE24h1%2C";
@@ -52,7 +43,7 @@ async function getSignatures(params: string): Promise<{
 async function parseIcalData(
   icalFile: string,
   params: string
-): Promise<ICalData[] | { error: string }> {
+): Promise<ICalEvent[] | { error: string }> {
   try {
     const parsedData = ical.parseICS(icalFile);
     const signatures = await getSignatures(params);
@@ -61,8 +52,8 @@ async function parseIcalData(
       .filter((event) => event.type === "VEVENT")
       .map((event) => {
         const summary = event.summary ?? "";
-        const start = event.start ?? new Date();
-        const end = event.end ?? new Date();
+        const start = event.start?.toISOString() ?? "";
+        const end = event.end?.toISOString() ?? "";
 
         const programmeMatch = summary.match(/Program:\s*([\w\d\s]+) Kurs/);
         const programme = programmeMatch ? programmeMatch[1] : "";
