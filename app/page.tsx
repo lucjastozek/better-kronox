@@ -1,4 +1,5 @@
 "use client";
+import Event from "@/components/Event";
 import ICalEvent from "@/utils/interfaces/ICalEvent";
 import axios from "axios";
 import { DateTime } from "luxon";
@@ -24,19 +25,13 @@ export default function Home() {
     <main>
       {events.length < 1 && <h1>Loading...</h1>}
       {events.map((event, i) => (
-        <div key={i}>
-          <h1>{event.topic}</h1>
-          <h2>
-            {DateTime.fromISO(event.start).toFormat("HH:mm")} -{" "}
-            {DateTime.fromISO(event.end).toFormat("HH:mm")}
-          </h2>
-          <h3>{event.course}</h3>
-          <div>
-            {event.signature.map((sign, j) => (
-              <p key={j}>{sign}</p>
-            ))}
-          </div>
-        </div>
+        <Event
+          key={i}
+          teachers={event.signature}
+          topic={event.topic}
+          startHour={DateTime.fromISO(event.start).toFormat("HH:mm")}
+          endHour={DateTime.fromISO(event.end).toFormat("HH:mm")}
+        />
       ))}
     </main>
   );

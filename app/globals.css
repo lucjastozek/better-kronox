@@ -1,6 +1,8 @@
 :root {
   --background: #e6e7e9;
   --foreground: #0e1013;
+  --eventbg: #9fb3da;
+  --eventfg: #0e1013;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -39,4 +41,27 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+.event {
+  width: 16rem;
+  background-color: var(--eventbg);
+  color: var(--eventfg);
+  padding: 2rem;
+  border-radius: 1rem;
+  margin: 2rem;
+}
+
+.event h2 {
+  font-size: 1.25rem;
+}
+
+.event h3 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 4rem;
+}
+
+.event p {
+  font-size: 1rem;
 }
