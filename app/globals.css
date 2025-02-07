@@ -86,3 +86,55 @@ a {
   font-size: 1rem;
   font-size: clamp(1rem, 0.17rem + 0.97vw, 2.5rem);
 }
+
+.header {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header > h1 {
+  font-size: 1.2rem;
+  font-size: clamp(1.2rem, -0.01rem + 1.4vw, 3.4rem);
+  font-weight: 600;
+}
+
+.header > h1 > span {
+  font-weight: 400;
+}
+
+.todayButton {
+  background-color: var(--eventbg);
+  border: none;
+  color: var(--eventfg);
+
+  padding-block: 0.6rem;
+  padding-block: clamp(0.6rem, 0.7vw, 1.7rem);
+  padding-inline: 1rem;
+  padding-inline: clamp(1rem, 0.17rem + 0.97vw, 2.5rem);
+
+  border-radius: 0.6rem;
+  border-radius: clamp(0.6rem, 0.7vw, 1.7rem);
+
+  font-weight: 600;
+  font-size: 1.1rem;
+  font-size: clamp(1.1rem, 0.05rem + 1.2vw, 3rem);
+}
+
+.buttons {
+  display: flex;
+  gap: clamp(0.6rem, 0.7vw, 1.7rem);
+}
+
+.iconButton {
+  background-color: rgb(var(--background));
+  border: none;
+}
+
+.iconButton > img {
+  width: 2.25rem;
+  width: clamp(2.25rem, 1.4rem + 1vw, 3.75rem);
+  height: 2.25rem;
+  height: clamp(2.25rem, 1.4rem + 1vw, 3.75rem);
+}

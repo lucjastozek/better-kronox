@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { DateTime } from "luxon";
 import Event from "@/components/Event/Event";
@@ -8,7 +9,8 @@ import styles from "./page.module.css";
 import Timetable from "@/components/Timetable/Timetable";
 
 export default function Home() {
-  const day = DateTime.now().plus({ days: 4 });
+  const [day, setDay] = useState(DateTime.now());
+  const prefersDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
   const [cellSize, setCellSize] = useState({
     top: 0,
     left: 0,
@@ -31,8 +33,57 @@ export default function Home() {
     fetchEvents();
   }, []);
 
+  const handleNextClick = () => {
+    setDay((prev) => prev.plus({ weeks: 1 }));
+  };
+
+  const handlePrevClick = () => {
+    setDay((prev) => prev.minus({ weeks: 1 }));
+  };
+
+  const handleTodayClick = () => {
+    setDay(DateTime.now());
+  };
+
   return (
     <main className={styles.main}>
+      <div className="header">
+        <button className="todayButton" onClick={handleTodayClick}>
+          Today
+        </button>
+        <h1>
+          <span>Week {day.weekNumber}: </span>
+          {day
+            .minus({ days: day.weekday - 1 })
+            .setLocale("en")
+            .toFormat("DDD")}{" "}
+          -{" "}
+          {day
+            .minus({ days: day.weekday - 5 })
+            .setLocale("en")
+            .toFormat("DDD")}
+        </h1>
+        {prefersDarkTheme.matches ? (
+          <div className="buttons">
+            <button className="iconButton" onClick={handlePrevClick}>
+              <img src="./arrow_left_light.svg" alt="previous week" />
+            </button>
+            <button className="iconButton" onClick={handleNextClick}>
+              <img src="./arrow_right_light.svg" alt="next week" />{" "}
+            </button>
+          </div>
+        ) : (
+          <div className="buttons">
+            <button className="iconButton" onClick={handlePrevClick}>
+              <img src="./arrow_left_dark.svg" alt="previous week" />{" "}
+            </button>
+
+            <button className="iconButton" onClick={handleNextClick}>
+              <img src="./arrow_right_dark.svg" alt="next week" />{" "}
+            </button>
+          </div>
+        )}
+      </div>
       <Timetable date={day} setCellSize={setCellSize} />
       {events.length < 1 && <h1 className="loading">Loading...</h1>}
       {events
