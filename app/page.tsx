@@ -1,4 +1,5 @@
 "use client";
+import { DateTime } from "luxon";
 // import Event from "@/components/Event";
 // import ICalEvent from "@/utils/interfaces/ICalEvent";
 // import axios from "axios";
@@ -25,7 +26,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <Timetable />
+      <Timetable date={DateTime.now()} />
       {/* {events.length < 1 && <h1>Loading...</h1>}
       {events.map((event, i) => (
         <Event

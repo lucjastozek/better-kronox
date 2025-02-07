@@ -1,30 +1,28 @@
 import styles from "@/components/Timetable/timetable.module.css";
+import { DateTime } from "luxon";
 
-export default function Timetable() {
-  const day = 24;
+interface TimetableProps {
+  date: DateTime;
+  locale?: "en" | "sv";
+}
+
+export default function Timetable({ date, locale = "en" }: TimetableProps) {
+  const startDate = date.minus({ days: date.weekday - 1 });
+
   return (
     <div className={styles.grid}>
       <div className={styles.weekNames}>
-        <div className={styles.weekName}>
-          <p>{day}</p>
-          <h2>Mon</h2>
-        </div>
-        <div className={styles.weekName}>
-          <p>{day + 1}</p>
-          <h2>Tue</h2>
-        </div>
-        <div className={styles.weekName}>
-          <p>{day + 2}</p>
-          <h2>Wed</h2>
-        </div>
-        <div className={styles.weekName}>
-          <p>{day + 3}</p>
-          <h2>Thu</h2>
-        </div>
-        <div className={styles.weekName}>
-          <p>{day + 4}</p>
-          <h2>Fri</h2>
-        </div>
+        {Array.from({ length: 5 }, (_, i) => (
+          <div
+            className={`${styles.weekName} ${i + 1 === date.weekday && styles.highlight}`}
+            key={i}
+          >
+            <p>{startDate.plus({ days: i }).day}</p>
+            <h2>
+              {startDate.plus({ days: i }).setLocale(locale).weekdayShort}
+            </h2>
+          </div>
+        ))}
       </div>
       <div className={styles.times}>
         <h2>08:00</h2>
@@ -40,7 +38,10 @@ export default function Timetable() {
       </div>
       <div className={styles.content}>
         {Array.from({ length: 50 }, (_, i) => (
-          <div key={i} />
+          <div
+            key={i}
+            className={`${(i % 5) + 1 === date.weekday && styles.highlight}`}
+          />
         ))}
       </div>
     </div>

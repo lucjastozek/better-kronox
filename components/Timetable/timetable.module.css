@@ -57,4 +57,11 @@
 .content > * {
   z-index: -1;
   border: 1px solid rgba(var(--foreground), 0.2);
+  border-bottom: none;
+}
+
+.highlight {
+  background-color: rgba(var(--foreground), 0.05);
+  border-inline: none;
+  z-index: 4;
 }
