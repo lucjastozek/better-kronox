@@ -4,7 +4,9 @@
     ". week"
     "time content";
   grid-template-columns: 4rem;
+  grid-template-columns: clamp(4rem, 1.8rem + 2.6vw, 8rem);
   grid-template-rows: 4rem;
+  grid-template-rows: clamp(4rem, 1.8rem + 2.6vw, 8rem);
   width: 80dvw;
   height: 80dvh;
   gap: 0;
@@ -17,11 +19,14 @@
   align-items: center;
   margin: 0;
   padding: 0;
+  font-size: 1rem;
+  font-size: clamp(1rem, 0.17rem + 0.97vw, 2.5rem);
 }
 
 .weekName > h2 {
   font-weight: 400;
   font-size: 1.2rem;
+  font-size: clamp(1.2rem, -0.01rem + 1.4vw, 3.4rem);
 }
 
 .weekNames {
@@ -40,6 +45,7 @@
 
 .times > h2 {
   font-size: 1rem;
+  font-size: clamp(1rem, 0.17rem + 0.97vw, 2.5rem);
   font-weight: 400;
   transform: translateY(-15%);
 }

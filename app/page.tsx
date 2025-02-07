@@ -8,7 +8,7 @@ import styles from "./page.module.css";
 import Timetable from "@/components/Timetable/Timetable";
 
 export default function Home() {
-  const day = DateTime.now().plus({ days: 0 });
+  const day = DateTime.now().plus({ days: 4 });
   const [cellSize, setCellSize] = useState({
     top: 0,
     left: 0,
