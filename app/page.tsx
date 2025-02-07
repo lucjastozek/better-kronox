@@ -4,6 +4,7 @@ import ICalEvent from "@/utils/interfaces/ICalEvent";
 import axios from "axios";
 import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
+import styles from "./page.module.css";
 
 export default function Home() {
   const [events, setEvents] = useState<ICalEvent[]>([]);
@@ -22,7 +23,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
+    <main className={styles.main}>
       {events.length < 1 && <h1>Loading...</h1>}
       {events.map((event, i) => (
         <Event
