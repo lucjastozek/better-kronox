@@ -22,9 +22,9 @@ export default function Timetable({
 }: TimetableProps) {
   const gridRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const updateCellInfo = () => {
     if (gridRef.current) {
-      const firstCell = gridRef.current.querySelector(".firstCell"); // Select first cell
+      const firstCell = gridRef.current.querySelector(".firstCell");
       if (firstCell) {
         const rect = firstCell.getBoundingClientRect();
         setCellSize({
@@ -35,7 +35,17 @@ export default function Timetable({
         });
       }
     }
-  }, [setCellSize]);
+  };
+
+  useEffect(() => {
+    updateCellInfo();
+
+    window.addEventListener("resize", updateCellInfo);
+
+    return () => window.removeEventListener("resize", updateCellInfo);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const startDate = date.minus({ days: date.weekday - 1 });
 
   return (
