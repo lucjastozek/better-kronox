@@ -4,6 +4,7 @@ interface EventProps {
   topic: string;
   teachers: string[];
   locations: string[];
+  style: object;
 }
 
 export default function Event({
@@ -12,9 +13,10 @@ export default function Event({
   topic,
   teachers,
   locations,
+  style,
 }: EventProps) {
   return (
-    <div className="event">
+    <div className="event" style={style}>
       <div>
         <h2>{topic}</h2>
         <h3>

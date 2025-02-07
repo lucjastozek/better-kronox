@@ -1,16 +1,45 @@
 import styles from "@/components/Timetable/timetable.module.css";
 import { DateTime } from "luxon";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
 interface TimetableProps {
   date: DateTime;
   locale?: "en" | "sv";
+  setCellSize: Dispatch<
+    SetStateAction<{
+      top: number;
+      left: number;
+      width: number;
+      height: number;
+    }>
+  >;
 }
 
-export default function Timetable({ date, locale = "en" }: TimetableProps) {
+export default function Timetable({
+  date,
+  locale = "en",
+  setCellSize,
+}: TimetableProps) {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (gridRef.current) {
+      const firstCell = gridRef.current.querySelector(".firstCell"); // Select first cell
+      if (firstCell) {
+        const rect = firstCell.getBoundingClientRect();
+        setCellSize({
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height,
+        });
+      }
+    }
+  }, [setCellSize]);
   const startDate = date.minus({ days: date.weekday - 1 });
 
   return (
-    <div className={styles.grid}>
+    <div className={styles.grid} ref={gridRef}>
       <div className={styles.weekNames}>
         {Array.from({ length: 5 }, (_, i) => (
           <div
@@ -40,7 +69,7 @@ export default function Timetable({ date, locale = "en" }: TimetableProps) {
         {Array.from({ length: 50 }, (_, i) => (
           <div
             key={i}
-            className={`${(i % 5) + 1 === date.weekday && styles.highlight}`}
+            className={`${(i % 5) + 1 === date.weekday && styles.highlight} ${i === 0 && "firstCell"}`}
           />
         ))}
       </div>

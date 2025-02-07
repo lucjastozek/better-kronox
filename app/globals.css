@@ -43,13 +43,19 @@ a {
   }
 }
 
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
 .event {
-  width: 16rem;
+  position: absolute;
   background-color: var(--eventbg);
   color: var(--eventfg);
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 1rem;
-  margin: 2rem;
+  z-index: 10;
 }
 
 .event h2 {
