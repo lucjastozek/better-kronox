@@ -1,0 +1,60 @@
+.grid {
+  display: grid;
+  grid-template-areas:
+    ". week"
+    "time content";
+  grid-template-columns: 4rem;
+  grid-template-rows: 4rem;
+  width: 80dvw;
+  height: 80dvh;
+  gap: 0;
+}
+
+.weekName {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.weekName > h2 {
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+
+.weekNames {
+  grid-area: week;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  text-transform: uppercase;
+  padding: 0;
+}
+
+.times {
+  grid-area: time;
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.times > h2 {
+  font-size: 1rem;
+  font-weight: 400;
+  transform: translateY(-15%);
+}
+
+.content {
+  grid-area: content;
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  box-shadow:
+    inset 1px 0px 0 rgb(var(--background)),
+    inset -1px -1px 0 rgb(var(--background));
+}
+
+.content > * {
+  z-index: -1;
+  border: 1px solid rgba(var(--foreground), 0.2);
+}

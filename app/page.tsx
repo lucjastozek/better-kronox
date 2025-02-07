@@ -1,30 +1,32 @@
 "use client";
-import Event from "@/components/Event";
-import ICalEvent from "@/utils/interfaces/ICalEvent";
-import axios from "axios";
-import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
+// import Event from "@/components/Event";
+// import ICalEvent from "@/utils/interfaces/ICalEvent";
+// import axios from "axios";
+// import { DateTime } from "luxon";
+// import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import Timetable from "@/components/Timetable/Timetable";
 
 export default function Home() {
-  const [events, setEvents] = useState<ICalEvent[]>([]);
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const data = (await axios.get("/api/schedule")).data;
+  // const [events, setEvents] = useState<ICalEvent[]>([]);
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     try {
+  //       const data = (await axios.get("/api/schedule")).data;
 
-        setEvents(data.events);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-      }
-    };
+  //       setEvents(data.events);
+  //     } catch (error) {
+  //       console.error("Error fetching events:", error);
+  //     }
+  //   };
 
-    fetchEvents();
-  }, []);
+  //   fetchEvents();
+  // }, []);
 
   return (
     <main className={styles.main}>
-      {events.length < 1 && <h1>Loading...</h1>}
+      <Timetable />
+      {/* {events.length < 1 && <h1>Loading...</h1>}
       {events.map((event, i) => (
         <Event
           key={i}
@@ -34,7 +36,7 @@ export default function Home() {
           endHour={DateTime.fromISO(event.end).toFormat("HH:mm")}
           locations={event.locations}
         />
-      ))}
+      ))} */}
     </main>
   );
 }
