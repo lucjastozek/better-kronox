@@ -46,7 +46,18 @@ export default function Event({
         }}
       >
         <div>
-          <h2>{topic}</h2>
+          <h2
+            style={{
+              WebkitLineClamp:
+                parseInt(style.height.split("px")[0]) < 70
+                  ? 1
+                  : parseInt(style.height.split("px")[0]) < 100
+                    ? 2
+                    : 3,
+            }}
+          >
+            {topic}
+          </h2>
           <h3>
             {startHour} - {endHour}
           </h3>
