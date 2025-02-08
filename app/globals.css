@@ -130,6 +130,8 @@ a {
 .iconButton {
   background-color: rgb(var(--background));
   border: none;
+  border-radius: 0.6rem;
+  border-radius: clamp(0.6rem, 0.7vw, 1.7rem);
 }
 
 .iconButton > img {
@@ -137,4 +139,22 @@ a {
   width: clamp(2.25rem, 1.4rem + 1vw, 3.75rem);
   height: 2.25rem;
   height: clamp(2.25rem, 1.4rem + 1vw, 3.75rem);
+}
+
+.todayButton:hover {
+  opacity: 0.9;
+}
+
+.todayButton:active {
+  box-shadow: inset 0rem 0rem 0.5rem var(--eventfg);
+  opacity: 1;
+}
+
+.iconButton:hover {
+  background-color: rgba(var(--foreground), 0.2);
+}
+
+.iconButton:active {
+  box-shadow: inset 0rem 0rem 0.5rem var(--eventfg);
+  opacity: 1;
 }

@@ -1,5 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
+/* eslint-disable @next/next/no-img-element */
 import { DateTime } from "luxon";
 import Event from "@/components/Event/Event";
 import ICalEvent from "@/utils/interfaces/ICalEvent";
