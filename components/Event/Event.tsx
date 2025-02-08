@@ -15,6 +15,7 @@ interface EventProps {
   locations: string[];
   course: string;
   style: Style;
+  width: number;
 }
 
 export default function Event({
@@ -25,6 +26,7 @@ export default function Event({
   locations,
   style,
   course,
+  width,
 }: EventProps) {
   const [showOverlay, setShowOverlay] = useState(false);
   return (
@@ -32,8 +34,16 @@ export default function Event({
       <div
         className="event"
         style={style}
-        onMouseOver={() => setShowOverlay(true)}
-        onMouseLeave={() => setShowOverlay(false)}
+        onMouseOver={() => width > 768 && setShowOverlay(true)}
+        onMouseLeave={() => width > 768 && setShowOverlay(false)}
+        onClick={() => {
+          if (width < 768) {
+            setShowOverlay((prev) => !prev);
+            setTimeout(() => {
+              setShowOverlay(false);
+            }, 3000);
+          }
+        }}
       >
         <div>
           <h2>{topic}</h2>

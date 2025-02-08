@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lato } from "next/font/google";
 import "./globals.css";
 
@@ -21,10 +21,6 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: "IxD Schedule",
   description: "Better than kronox :)",
-};
-
-export const viewport: Viewport = {
-  initialScale: 0.1,
 };
 
 export default function RootLayout({
