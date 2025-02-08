@@ -10,7 +10,7 @@ import Timetable from "@/components/Timetable/Timetable";
 
 export default function Home() {
   const [day, setDay] = useState(DateTime.now());
-  const prefersDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
+  const [prefersDarkTheme, setPrefersDarkTheme] = useState(false);
   const [cellSize, setCellSize] = useState({
     top: 0,
     left: 0,
@@ -18,6 +18,20 @@ export default function Home() {
     height: 0,
   });
   const [events, setEvents] = useState<ICalEvent[]>([]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    setPrefersDarkTheme(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersDarkTheme(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -63,7 +77,7 @@ export default function Home() {
             .setLocale("en")
             .toFormat("DDD")}
         </h1>
-        {prefersDarkTheme.matches ? (
+        {prefersDarkTheme ? (
           <div className="buttons">
             <button className="iconButton" onClick={handlePrevClick}>
               <img src="./arrow_left_light.svg" alt="previous week" />
@@ -93,6 +107,7 @@ export default function Home() {
         .map((event, i) => (
           <Event
             key={i}
+            course={event.course}
             teachers={event.signature}
             topic={event.topic}
             startHour={DateTime.fromISO(event.start).toFormat("HH:mm")}
