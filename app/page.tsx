@@ -20,6 +20,12 @@ export default function Home() {
   const [events, setEvents] = useState<ICalEvent[]>([]);
 
   useEffect(() => {
+    if (day.weekday > 5) {
+      setDay((prev) => prev.plus({ weeks: 1 }));
+    }
+  }, [day.weekday]);
+
+  useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     setPrefersDarkTheme(mediaQuery.matches);
 
