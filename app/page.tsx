@@ -90,7 +90,23 @@ export default function Home() {
     setDay(DateTime.now());
   };
 
-  console.log(width);
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "n" || e.key === "ArrowRight") {
+        handleNextClick();
+      } else if (e.key === "p" || e.key === "ArrowLeft") {
+        handlePrevClick();
+      } else if (e.key === "t") {
+        handleTodayClick();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className={styles.main}>
