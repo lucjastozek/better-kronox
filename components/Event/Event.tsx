@@ -34,10 +34,10 @@ export default function Event({
       <div
         className="event"
         style={style}
-        onMouseOver={() => width > 768 && setShowOverlay(true)}
-        onMouseLeave={() => width > 768 && setShowOverlay(false)}
+        onMouseOver={() => width > 900 && setShowOverlay(true)}
+        onMouseLeave={() => width > 900 && setShowOverlay(false)}
         onClick={() => {
-          if (width < 768) {
+          if (width < 900) {
             setShowOverlay((prev) => !prev);
             setTimeout(() => {
               setShowOverlay(false);

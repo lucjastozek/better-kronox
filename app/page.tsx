@@ -14,7 +14,7 @@ import TimetableWeek from "@/components/TimetableWeek/TimetableWeek";
 
 export default function Home() {
   const [day, setDay] = useState(DateTime.now());
-  const [view, setView] = useState<"day" | "week">("week");
+  const [view, setView] = useState<"day" | "week">("day");
   const [cellSize, setCellSize] = useState({
     top: 0,
     left: 0,
@@ -26,9 +26,19 @@ export default function Home() {
 
   function handleWindowSizeChange() {
     setWidth(window.innerWidth);
+    if (window.innerWidth <= 900) {
+      setView("day");
+    } else {
+      setView("week");
+    }
   }
   useEffect(() => {
     setWidth(window.innerWidth);
+    if (window.innerWidth <= 900) {
+      setView("day");
+    } else {
+      setView("week");
+    }
 
     window.addEventListener("resize", handleWindowSizeChange);
 
@@ -60,7 +70,7 @@ export default function Home() {
   }, []);
 
   const handleNextClick = () => {
-    if (width > 768) {
+    if (width > 900) {
       setDay((prev) => prev.plus({ weeks: 1 }));
     } else {
       setDay((prev) => prev.plus({ days: 1 }));
@@ -68,7 +78,7 @@ export default function Home() {
   };
 
   const handlePrevClick = () => {
-    if (width > 768) {
+    if (width > 900) {
       setDay((prev) => prev.minus({ weeks: 1 }));
     } else {
       setDay((prev) => prev.minus({ days: 1 }));
@@ -104,7 +114,7 @@ export default function Home() {
           Today
         </button>
         <h1>
-          {width > 768 ? (
+          {width > 900 ? (
             <>
               <span>Week {day.weekNumber}: </span>
               {day
@@ -122,7 +132,7 @@ export default function Home() {
           )}
         </h1>
         <div className="buttons">
-          {width > 768 && (
+          {width > 900 && (
             <Select
               value={view}
               onChange={(e) => setView(e.target.value as "day" | "week")}
@@ -132,6 +142,16 @@ export default function Home() {
                 color: "rgb(var(--black))",
                 borderRadius: "clamp(0.6rem, 0.7vw, 1.7rem)",
                 marginRight: "1rem",
+                fontWeight: "600",
+                fontSize: "clamp(1.1rem, 0.05rem + 1.2vw, 3rem) !important",
+                paddingBlock:
+                  "clamp(0.6rem - 8.5px, 0.7vw - 8.5px, 1.7rem - 8.5px) !important",
+                paddingRight:
+                  "clamp(1rem - 32px, 0.17rem + 0.97vw - 32px, 2.5rem - 32px) !important",
+                paddingLeft:
+                  "clamp(1rem - 14px, 0.17rem + 0.97vw - 14px, 2.5rem - 14px) !important",
+                fontFamily: "Arial, sans-serif",
+                height: "100%",
               }}
             >
               <MenuItem value="day">Day</MenuItem>
@@ -153,7 +173,7 @@ export default function Home() {
       {events.length < 1 && <h1 className="loading">Loading...</h1>}
       {events
         .filter((event) => {
-          if (width > 768) {
+          if (width > 900) {
             return DateTime.fromISO(event.start).weekNumber === day.weekNumber;
           } else {
             return (
@@ -163,7 +183,7 @@ export default function Home() {
           }
         })
         .map((event, i) => {
-          if (width > 768) {
+          if (width > 900) {
             return (
               <Event
                 key={i}
