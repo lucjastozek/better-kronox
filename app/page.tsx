@@ -1,17 +1,20 @@
 "use client";
-/* eslint-disable @next/next/no-img-element */
 import { DateTime } from "luxon";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Event from "@/components/Event/Event";
 import ICalEvent from "@/utils/interfaces/ICalEvent";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import styles from "./page.module.css";
-import Timetable from "@/components/Timetable/Timetable";
-import TimetableMobile from "@/components/TimetableMobile/TimetableMobile";
+import TimetableDay from "@/components/TimetableDay/TimetableDay";
+import TimetableWeek from "@/components/TimetableWeek/TimetableWeek";
 
 export default function Home() {
   const [day, setDay] = useState(DateTime.now());
-  const [prefersDarkTheme, setPrefersDarkTheme] = useState(false);
+  const [view, setView] = useState<"day" | "week">("week");
   const [cellSize, setCellSize] = useState({
     top: 0,
     left: 0,
@@ -41,20 +44,6 @@ export default function Home() {
       setDay((prev) => prev.plus({ days: 8 - day.weekday }));
     }
   }, [day, day.weekday]);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    setPrefersDarkTheme(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersDarkTheme(e.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, []);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -110,7 +99,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <div className="header">
+      <header className="header">
         <button className="todayButton" onClick={handleTodayClick}>
           Today
         </button>
@@ -132,31 +121,34 @@ export default function Home() {
             <span>{day.toFormat("dd LLLL")}</span>
           )}
         </h1>
-        {prefersDarkTheme ? (
-          <div className="buttons">
-            <button className="iconButton" onClick={handlePrevClick}>
-              <img src="./arrow_left_light.svg" alt="previous week" />
-            </button>
-            <button className="iconButton" onClick={handleNextClick}>
-              <img src="./arrow_right_light.svg" alt="next week" />{" "}
-            </button>
-          </div>
-        ) : (
-          <div className="buttons">
-            <button className="iconButton" onClick={handlePrevClick}>
-              <img src="./arrow_left_dark.svg" alt="previous week" />{" "}
-            </button>
-
-            <button className="iconButton" onClick={handleNextClick}>
-              <img src="./arrow_right_dark.svg" alt="next week" />{" "}
-            </button>
-          </div>
-        )}
-      </div>
-      {width <= 768 ? (
-        <TimetableMobile date={day} setCellSize={setCellSize} />
-      ) : (
-        <Timetable date={day} setCellSize={setCellSize} />
+        <div className="buttons">
+          {width > 768 && (
+            <Select
+              value={view}
+              onChange={(e) => setView(e.target.value as "day" | "week")}
+              size="small"
+              sx={{
+                background: "rgba(var(--white), 0.9)",
+                color: "rgb(var(--black))",
+                borderRadius: "clamp(0.6rem, 0.7vw, 1.7rem)",
+                marginRight: "1rem",
+              }}
+            >
+              <MenuItem value="day">Day</MenuItem>
+              <MenuItem value="week">Week</MenuItem>
+            </Select>
+          )}
+          <button className="iconButton" onClick={handlePrevClick}>
+            <NavigateBeforeIcon />
+          </button>
+          <button className="iconButton" onClick={handleNextClick}>
+            <NavigateNextIcon />
+          </button>
+        </div>
+      </header>
+      {view === "day" && <TimetableDay date={day} setCellSize={setCellSize} />}
+      {view === "week" && (
+        <TimetableWeek date={day} setCellSize={setCellSize} />
       )}
       {events.length < 1 && <h1 className="loading">Loading...</h1>}
       {events

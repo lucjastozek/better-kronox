@@ -1,4 +1,6 @@
 :root {
+  --white: 230, 231, 233;
+  --black: 14, 16, 19;
   --background: 230, 231, 233;
   --foreground: 14, 16, 19;
   --eventbg: #9fb3da;
