@@ -404,3 +404,7 @@ div[role="combobox"]:focus-within {
   outline: 2px solid rgb(var(--foreground)) !important;
   outline-offset: 2px !important;
 }
+
+.event > div {
+  width: 100%;
+}
