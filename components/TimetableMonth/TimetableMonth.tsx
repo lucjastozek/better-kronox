@@ -2,6 +2,7 @@ import styles from "@/components/TimetableMonth/timetable-month.module.css";
 import { DateTime } from "luxon";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ICalEvent from "@/utils/interfaces/ICalEvent";
+import { isToday } from "@/utils/dateHelpers";
 
 interface TimetableProps {
   date: DateTime;
@@ -28,7 +29,16 @@ export default function TimetableMonth({
   const [selectedEvent, setSelectedEvent] = useState<ICalEvent | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  // Close overlay when clicking outside
+  const handleEventClick = (event: ICalEvent) => {
+    setSelectedEvent(event);
+    setShowOverlay(true);
+  };
+
+  const closeOverlay = () => {
+    setShowOverlay(false);
+    setSelectedEvent(null);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -52,7 +62,6 @@ export default function TimetableMonth({
     };
   }, [showOverlay]);
 
-  // Close overlay on Escape key
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -68,11 +77,6 @@ export default function TimetableMonth({
       document.removeEventListener("keydown", handleEscape);
     };
   }, [showOverlay]);
-
-  const handleEventClick = (event: ICalEvent) => {
-    setSelectedEvent(event);
-    setShowOverlay(true);
-  };
 
   const updateCellInfo = () => {
     if (gridRef.current) {
@@ -101,9 +105,9 @@ export default function TimetableMonth({
   const daysInMonth = date.daysInMonth || 31;
   const firstDayOfWeek = (DateTime.local(year, month, 1).weekday + 6) % 7;
 
-  const dayNames = Array.from({ length: 7 }, (_, i) => {
+  const dayNames = Array.from({ length: 7 }, (_, dayIndex) => {
     const dayName = DateTime.local(2024, 1, 1)
-      .plus({ days: i })
+      .plus({ days: dayIndex })
       .setLocale(locale).weekdayShort;
     return dayName ? dayName.toUpperCase() : "";
   });
@@ -153,40 +157,40 @@ export default function TimetableMonth({
   }
 
   // current month's days
-  for (let day = 1; day <= daysInMonth; day++) {
-    const cellDate = DateTime.local(year, month, day);
-    const dayEvents = events.filter((e) =>
-      DateTime.fromISO(e.start).hasSame(cellDate, "day")
+  for (let currentDay = 1; currentDay <= daysInMonth; currentDay++) {
+    const cellDate = DateTime.local(year, month, currentDay);
+    const dayEvents = events.filter((event) =>
+      DateTime.fromISO(event.start).hasSame(cellDate, "day")
     );
-    const isToday = cellDate.hasSame(DateTime.now(), "day");
+    const isCurrentDay = isToday(cellDate);
     cells.push(
       <div
-        key={day}
-        className={`${styles.cell} ${day === 1 ? "firstCell" : ""} ${isToday ? styles.today : ""}`}
+        key={currentDay}
+        className={`${styles.cell} ${currentDay === 1 ? "firstCell" : ""} ${isCurrentDay ? styles.today : ""}`}
       >
-        <h3 className={styles.dayNumber}>{day}</h3>
+        <h3 className={styles.dayNumber}>{currentDay}</h3>
         <div className={styles.events}>
-          {dayEvents.map((ev, idx) => (
+          {dayEvents.map((eventItem, eventIndex) => (
             <div
-              key={idx}
+              key={eventIndex}
               className={styles.event}
-              onClick={() => handleEventClick(ev)}
+              onClick={() => handleEventClick(eventItem)}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  handleEventClick(ev);
+                  handleEventClick(eventItem);
                 }
               }}
             >
               <span className={styles.timeContainer}>
                 <span className={styles.dot}></span>
                 <span className={styles.time}>
-                  {DateTime.fromISO(ev.start).toFormat("HH:mm")}
+                  {DateTime.fromISO(eventItem.start).toFormat("HH:mm")}
                 </span>
               </span>
-              <p>{ev.topic}</p>
+              <p>{eventItem.topic}</p>
             </div>
           ))}
         </div>
@@ -255,7 +259,7 @@ export default function TimetableMonth({
       {showOverlay && (
         <div
           className={`overlay-backdrop ${showOverlay ? "overlay-backdrop-show" : ""}`}
-          onClick={() => setShowOverlay(false)}
+          onClick={closeOverlay}
         />
       )}
 
@@ -287,7 +291,7 @@ export default function TimetableMonth({
               </div>
               <button
                 className="overlay-close"
-                onClick={() => setShowOverlay(false)}
+                onClick={closeOverlay}
                 aria-label="Close overlay"
               >
                 ✕

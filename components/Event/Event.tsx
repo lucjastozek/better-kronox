@@ -1,12 +1,6 @@
 import { DateTime } from "luxon";
 import { useState, useEffect, useRef } from "react";
-
-interface Style {
-  top: string;
-  left: string;
-  width: string;
-  height: string;
-}
+import { UI_CONSTANTS } from "@/utils/constants/AppConstants";
 
 interface EventProps {
   startDate: string;
@@ -15,8 +9,15 @@ interface EventProps {
   teachers: string[];
   locations: string[];
   course: string;
-  style: Style;
+  style: EventStyle;
   width: number;
+}
+
+interface EventStyle {
+  top: string;
+  left: string;
+  width: string;
+  height: string;
 }
 
 export default function Event({
@@ -31,6 +32,39 @@ export default function Event({
 }: EventProps) {
   const [showOverlay, setShowOverlay] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
+
+  const isDesktop = () => width > UI_CONSTANTS.MOBILE_BREAKPOINT;
+  const getEventHeight = () => parseInt(style.height.split("px")[0]);
+  const shouldShowDetails = () =>
+    getEventHeight() > UI_CONSTANTS.EVENT_HEIGHT_THRESHOLDS.LARGE;
+  const getTopicLineClamp = () => {
+    const height = getEventHeight();
+    if (height < UI_CONSTANTS.EVENT_HEIGHT_THRESHOLDS.SMALL) return 1;
+    if (height < UI_CONSTANTS.EVENT_HEIGHT_THRESHOLDS.MEDIUM) return 2;
+    return 3;
+  };
+
+  const toggleOverlay = () => {
+    if (showOverlay) {
+      setShowOverlay(false);
+    } else if (isDesktop()) {
+      setShowOverlay(true);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      if (isDesktop()) {
+        setShowOverlay(!showOverlay);
+      }
+    }
+  };
+
+  const hasTeachers = () =>
+    teachers && teachers.length > 0 && teachers[0] !== null;
+  const hasLocations = () =>
+    locations && locations.length > 0 && locations[0] !== "";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -75,35 +109,17 @@ export default function Event({
       <div
         className={`event ${showOverlay ? "event-active" : ""}`}
         style={style}
-        onClick={() => {
-          if (showOverlay === true) {
-            setShowOverlay(false);
-          } else if (width > 900) {
-            setShowOverlay(true);
-          }
-        }}
+        onClick={toggleOverlay}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            if (width > 900) {
-              setShowOverlay(!showOverlay);
-            }
-          }
-        }}
+        onKeyDown={handleKeyDown}
         aria-expanded={showOverlay}
         aria-haspopup="dialog"
       >
         <div>
           <h2
             style={{
-              WebkitLineClamp:
-                parseInt(style.height.split("px")[0]) < 70
-                  ? 1
-                  : parseInt(style.height.split("px")[0]) < 100
-                    ? 2
-                    : 3,
+              WebkitLineClamp: getTopicLineClamp(),
             }}
           >
             {topic}
@@ -113,19 +129,19 @@ export default function Event({
             {DateTime.fromISO(endDate).toFormat("HH:mm")}
           </h3>
         </div>
-        {parseInt(style.height.split("px")[0]) > 150 && (
+        {shouldShowDetails() && (
           <div>
-            {teachers[0] !== null && (
+            {hasTeachers() && (
               <div>
-                {teachers.map((teacher, i) => (
-                  <p key={i}>👤 {teacher}</p>
+                {teachers.map((teacher, index) => (
+                  <p key={index}>👤 {teacher}</p>
                 ))}
               </div>
             )}
-            {locations[0] !== "" && (
+            {hasLocations() && (
               <div>
-                {locations.map((location, i) => (
-                  <p key={i}>🏫 {location}</p>
+                {locations.map((location, index) => (
+                  <p key={index}>🏫 {location}</p>
                 ))}
               </div>
             )}
@@ -175,19 +191,19 @@ export default function Event({
           </div>
 
           <div className="overlay-content">
-            {teachers[0] !== null && (
+            {hasTeachers() && (
               <div className="overlay-section">
                 <h4>Teachers</h4>
-                {teachers.map((teacher, i) => (
-                  <p key={i}>👤 {teacher}</p>
+                {teachers.map((teacher, index) => (
+                  <p key={index}>👤 {teacher}</p>
                 ))}
               </div>
             )}
-            {locations[0] !== "" && (
+            {hasLocations() && (
               <div className="overlay-section">
                 <h4>Locations</h4>
-                {locations.map((location, i) => (
-                  <p key={i}>🏫 {location}</p>
+                {locations.map((location, index) => (
+                  <p key={index}>🏫 {location}</p>
                 ))}
               </div>
             )}
