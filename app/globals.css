@@ -479,3 +479,11 @@ div[role="combobox"]:focus-within {
   justify-content: center;
   gap: 1rem;
 }
+
+.loadingContainer {
+  width: 100dvw;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

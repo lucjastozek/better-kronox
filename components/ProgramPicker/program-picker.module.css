@@ -1,0 +1,141 @@
+.programPicker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 600px;
+  width: 100%;
+}
+
+.pickerTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+  text-align: center;
+}
+
+.buttonGrid {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.programButton {
+  padding: 1.5rem;
+  background: var(--eventbg);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.programButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.programButton:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.programButton:active {
+  transform: translateY(0);
+}
+
+.programButton.selected {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #5a67d8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(90, 103, 216, 0.3);
+}
+
+.programButton.selected:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px rgba(90, 103, 216, 0.4);
+}
+
+.programCode {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--eventfg);
+}
+
+.programTitle {
+  font-size: 0.9rem;
+  color: var(--eventfg);
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.programButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  transition: left 0.6s ease;
+}
+
+.programButton:hover::before {
+  left: 100%;
+}
+
+.programButton.selected::before {
+  display: none;
+}
+
+.typeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 1rem;
+}
+
+.programsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .buttonGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .programButton {
+    padding: 1.25rem;
+  }
+
+  .pickerTitle {
+    font-size: 1.25rem;
+  }
+
+  .programCode {
+    font-size: 1.1rem;
+  }
+
+  .programTitle {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .programPicker {
+    gap: 1rem;
+  }
+
+  .programButton {
+    padding: 1rem;
+  }
+}

@@ -7,6 +7,7 @@ interface CalendarHeaderProps {
   currentDate: DateTime;
   currentView: ViewType;
   showMobile: boolean;
+  programDisplayName: string;
   onPrevious: () => void;
   onNext: () => void;
   onViewChange: (view: ViewType) => void;
@@ -19,6 +20,7 @@ export default function CalendarHeader({
   onPrevious,
   onNext,
   onViewChange,
+  programDisplayName,
 }: CalendarHeaderProps) {
   return (
     <header className="header">
@@ -33,6 +35,8 @@ export default function CalendarHeader({
         </div>
         <h1>{currentDate.toFormat("LLLL yyyy")}</h1>
       </div>
+
+      {!showMobile && <p>{programDisplayName}</p>}
 
       <div className="buttons">
         {showMobile ? (

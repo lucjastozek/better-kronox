@@ -1,3 +1,9 @@
+import LoadingIndicator from "@/components/LoadingIndicator/LoadingIndicator";
+
 export default function Loading() {
-  return <h1>Loading</h1>;
+  return (
+    <div className="loadingContainer">
+      <LoadingIndicator />
+    </div>
+  );
 }

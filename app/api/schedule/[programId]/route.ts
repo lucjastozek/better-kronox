@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import ical from "ical";
 import * as cheerio from "cheerio";
 import ICalEvent from "@/utils/interfaces/ICalEvent";
-import { PROGRAMS } from "@/utils/constants/Programs";
+import { getProgramById } from "@/utils/constants/Programs";
 
 const API_CONFIG = {
   BASE_URL: "https://schema.mau.se/setup/jsp/",
@@ -15,9 +15,6 @@ const API_CONFIG = {
   },
 };
 
-const DEFAULT_PROGRAM =
-  PROGRAMS.find((p) => p.id === "tgide25h") || PROGRAMS[0];
-
 interface TeacherSignatures {
   [key: string]: string;
 }
@@ -26,6 +23,7 @@ async function getTeacherSignatures(
   programId: string
 ): Promise<TeacherSignatures> {
   try {
+    // https://schema.mau.se/setup/jsp/SchemaGrafik.jsp?startDatum=today&intervallTyp=a&intervallAntal=1&forklaringar=true&sokMedAND=false&sprak=EN&resurser=p.TAINE25h%2C
     const htmlResponse = await axios.get(
       `${API_CONFIG.BASE_URL}SchemaGrafik.jsp${API_CONFIG.BASE_PARAMS}${programId}%2C`
     );
@@ -121,16 +119,29 @@ const extractTopic = (summary: string): string => {
   return match ? match[1] : "";
 };
 
-export async function GET() {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { programId: string } }
+) {
   try {
-    const icalUrl = `${API_CONFIG.BASE_URL}SchemaICAL.ics${API_CONFIG.BASE_PARAMS}${DEFAULT_PROGRAM.id}%2C`;
-    const icalResponse = await axios.get(icalUrl);
-    const events = await parseCalendarData(
-      icalResponse.data,
-      DEFAULT_PROGRAM.id
-    );
+    const programId = params.programId;
+    const program = getProgramById(programId);
 
-    return NextResponse.json({ events, program: DEFAULT_PROGRAM.name });
+    console.log(programId);
+
+    if (!program) {
+      return NextResponse.json(
+        { error: `Program with ID '${programId}' not found` },
+        { status: 404 }
+      );
+    }
+
+    // https://schema.mau.se/setup/jsp/SchemaICAL.ics?startDatum=today&intervallTyp=a&intervallAntal=1&forklaringar=true&sokMedAND=false&sprak=EN&resurser=p.TAINE25h%2C
+    const icalUrl = `${API_CONFIG.BASE_URL}SchemaICAL.ics${API_CONFIG.BASE_PARAMS}${programId}%2C`;
+    const icalResponse = await axios.get(icalUrl);
+    const events = await parseCalendarData(icalResponse.data, programId);
+
+    return NextResponse.json({ events, program: program.name });
   } catch (error) {
     console.error("Error in schedule API:", error);
     return NextResponse.json(

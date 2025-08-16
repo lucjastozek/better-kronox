@@ -7,4 +7,91 @@
   height: 100dvh;
   gap: 2rem;
   gap: clamp(2rem, 0.9rem + 1.3vw, 4rem);
+  padding: 1rem;
+}
+
+.welcomeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  gap: 2rem;
+}
+
+.welcomeTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--foreground);
+  opacity: 0.9;
+  margin: 0;
+}
+
+.welcomeDescription {
+  font-size: 1.2rem;
+  color: var(--foreground);
+  opacity: 0.7;
+  margin: 0;
+  max-width: 500px;
+}
+
+.programHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.backButton {
+  padding: 8px 16px;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #4a5568;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+}
+
+.backButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.programTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .welcomeTitle {
+    font-size: 2rem;
+  }
+
+  .welcomeDescription {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .programHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .programTitle {
+    font-size: 1.4rem;
+  }
 }

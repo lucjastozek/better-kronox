@@ -8,7 +8,7 @@ interface UseEventsReturn {
   error: string | null;
 }
 
-export const useEvents = (): UseEventsReturn => {
+export const useEvents = (programId?: string): UseEventsReturn => {
   const [events, setEvents] = useState<ICalEvent[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +19,8 @@ export const useEvents = (): UseEventsReturn => {
         setIsLoading(true);
         setError(null);
 
-        const response = await axios.get("/api/schedule");
+        const url = programId ? `/api/schedule/${programId}` : "/api/schedule";
+        const response = await axios.get(url);
         setEvents(response.data.events);
       } catch (err) {
         const errorMessage =
@@ -32,7 +33,7 @@ export const useEvents = (): UseEventsReturn => {
     };
 
     fetchEvents();
-  }, []);
+  }, [programId]);
 
   return { events, isLoading, error };
 };
