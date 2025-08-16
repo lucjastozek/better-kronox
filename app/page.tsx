@@ -97,6 +97,12 @@ export default function Home() {
         handlePrevClick();
       } else if (e.key === "t") {
         handleTodayClick();
+      } else if (e.key === "d") {
+        setView("day");
+      } else if (e.key === "w") {
+        setView("week");
+      } else if (e.key === "m") {
+        setView("month");
       }
     };
     document.addEventListener("keydown", onKeyDown);
