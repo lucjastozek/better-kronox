@@ -156,9 +156,33 @@ export default function Home() {
                 height: "100%",
               }}
             >
-              <MenuItem value="day">Day</MenuItem>
-              <MenuItem value="week">Week</MenuItem>
-              <MenuItem value="month">Month</MenuItem>
+              <MenuItem
+                value="day"
+                sx={{
+                  fontSize:
+                    "clamp(0.9rem, 0.15rem + 0.87vw, 2.25rem) !important",
+                }}
+              >
+                Day
+              </MenuItem>
+              <MenuItem
+                value="week"
+                sx={{
+                  fontSize:
+                    "clamp(0.9rem, 0.15rem + 0.87vw, 2.25rem) !important",
+                }}
+              >
+                Week
+              </MenuItem>
+              <MenuItem
+                value="month"
+                sx={{
+                  fontSize:
+                    "clamp(0.9rem, 0.15rem + 0.87vw, 2.25rem) !important",
+                }}
+              >
+                Month
+              </MenuItem>
             </Select>
           )}
           <button className="iconButton" onClick={handlePrevClick}>

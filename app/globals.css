@@ -387,6 +387,13 @@ button {
 
 svg[data-testid="ArrowDropDownIcon"] {
   color: rgb(var(--foreground));
+  width: clamp(1.1rem, 0.05rem + 1.2vw, 3rem);
+  height: clamp(1.1rem, 0.05rem + 1.2vw, 3rem);
+  font-size: inherit !important;
+}
+
+div[role="combobox"] {
+  padding-right: clamp(2.2rem, 1.8rem + 1vw, 3.4rem) !important;
 }
 
 fieldset {
