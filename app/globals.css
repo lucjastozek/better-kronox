@@ -175,49 +175,217 @@ button {
 }
 
 .overlayContainer {
-  position: absolute;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
-  transform: translate(0, -105%);
   justify-content: center;
   align-items: center;
   flex-flow: column wrap;
-  overflow: hidden;
-  z-index: 15;
+  overflow: visible;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.overlay-backdrop-show {
+  opacity: 1;
 }
 
 .overlay {
   display: flex;
   flex-direction: column;
-  max-height: 0px;
   background-color: rgb(var(--foreground));
   color: rgb(var(--background));
   border-radius: 1.2rem;
   border-radius: clamp(1.2rem, -0.01rem + 1.4vw, 3.4rem);
   max-width: 31.25rem;
   max-width: clamp(31.25rem, -20.5rem + 60.63vw, 125rem);
-  z-index: 15;
+  min-width: 300px;
+  max-height: 80vh;
+  z-index: 1001;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  transform: scale(0.9) translateY(20px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  overflow: hidden;
 }
 
-.overlay > * {
+.overlay-show {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlay-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   padding: 1.2rem;
   padding: clamp(1.2rem, -0.01rem + 1.4vw, 3.4rem);
+  border-bottom: 1px solid rgba(var(--background), 0.1);
+}
+
+.overlay-close {
+  background: none;
+  border: none;
+  color: rgb(var(--background));
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.overlay-close:hover {
+  background-color: rgba(var(--background), 0.1);
+}
+
+.overlay-close:focus {
+  outline: 2px solid rgb(var(--background));
+  outline-offset: 2px;
+}
+
+.overlay-content {
+  margin-top: 1rem;
+  padding: 0 1.2rem 1.2rem;
+  padding: 0 clamp(1.2rem, -0.01rem + 1.4vw, 3.4rem)
+    clamp(1.2rem, -0.01rem + 1.4vw, 3.4rem);
+  overflow-y: auto;
+}
+
+.overlay-section {
+  margin-bottom: 1rem;
+}
+
+.overlay-section:last-child {
+  margin-bottom: 0;
+}
+
+.overlay-section h4 {
+  font-size: 0.8rem;
+  font-size: clamp(0.8rem, 0.13rem + 0.78vw, 2rem);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.event {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.event:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.event-active {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.event:focus {
+  outline: 2px solid rgb(var(--foreground));
+  outline-offset: 2px;
 }
 
 .overlay h2 {
   font-size: 0.9rem;
   font-size: clamp(0.9rem, 0.15rem + 0.87vw, 2.25rem);
+  margin-bottom: 0.5rem;
 }
 
 .overlay h3 {
   font-size: 0.9rem;
   font-size: clamp(0.9rem, 0.15rem + 0.87vw, 2.25rem);
   font-weight: 400;
+  margin-bottom: 0.25rem;
 }
 
 .overlay p {
   font-size: 0.7rem;
   font-size: clamp(0.7rem, 0.12rem + 0.68vw, 1.75rem);
+  margin-bottom: 0.25rem;
+}
+
+/* Animation for smooth entrance */
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .overlay {
+    max-width: 90vw;
+    max-height: 90vh;
+    margin: 1rem;
+  }
+
+  .overlay-header {
+    padding: 1rem;
+  }
+
+  .overlay-content {
+    padding: 0 1rem 1rem;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .overlay-backdrop,
+  .event {
+    transition: none;
+  }
+
+  .overlay {
+    animation: none;
+  }
 }
 
 svg[data-testid="ArrowDropDownIcon"] {
