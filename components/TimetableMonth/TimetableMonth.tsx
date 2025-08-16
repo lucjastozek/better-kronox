@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import styles from "@/components/TimetableMonth/timetable-month.module.css";
 import { DateTime } from "luxon";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
@@ -102,10 +103,8 @@ export default function TimetableMonth({
 
   const year = date.year;
   const month = date.month;
-  const daysInMonth = date.daysInMonth || 31;
-  const firstDayOfWeek = (DateTime.local(year, month, 1).weekday + 6) % 7;
 
-  const dayNames = Array.from({ length: 7 }, (_, dayIndex) => {
+  const dayNames = Array.from({ length: 5 }, (_, dayIndex) => {
     const dayName = DateTime.local(2024, 1, 1)
       .plus({ days: dayIndex })
       .setLocale(locale).weekdayShort;
@@ -114,133 +113,56 @@ export default function TimetableMonth({
 
   const cells = [];
 
-  // previous month's days
-  for (let i = 0; i < firstDayOfWeek; i++) {
-    const prevMonthDay = DateTime.local(year, month, 1).minus({
-      days: firstDayOfWeek - i,
-    });
-    const cellDate = prevMonthDay;
-    const dayEvents = events.filter((e) =>
-      DateTime.fromISO(e.start).hasSame(cellDate, "day")
-    );
-    cells.push(
-      <div
-        key={`prev-${prevMonthDay.day}`}
-        className={`${styles.cell} ${styles.otherMonth}`}
-      >
-        <div className={styles.dayNumber}>{prevMonthDay.day}</div>
-        <div className={styles.events}>
-          {dayEvents.map((ev, idx) => (
-            <div
-              key={idx}
-              className={styles.event}
-              onClick={() => handleEventClick(ev)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handleEventClick(ev);
-                }
-              }}
-            >
-              <span className={styles.dot}></span>
-              <span className={styles.time}>
-                {DateTime.fromISO(ev.start).toFormat("HH:mm")}
-              </span>{" "}
-              {ev.topic}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+  const firstMonday = DateTime.local(year, month, 1);
+  let startDate = firstMonday;
+
+  while (startDate.weekday !== 1) {
+    startDate = startDate.minus({ days: 1 });
   }
 
-  // current month's days
-  for (let currentDay = 1; currentDay <= daysInMonth; currentDay++) {
-    const cellDate = DateTime.local(year, month, currentDay);
-    const dayEvents = events.filter((event) =>
-      DateTime.fromISO(event.start).hasSame(cellDate, "day")
-    );
-    const isCurrentDay = isToday(cellDate);
-    cells.push(
-      <div
-        key={currentDay}
-        className={`${styles.cell} ${currentDay === 1 ? "firstCell" : ""} ${isCurrentDay ? styles.today : ""}`}
-      >
-        <h3 className={styles.dayNumber}>{currentDay}</h3>
-        <div className={styles.events}>
-          {dayEvents.map((eventItem, eventIndex) => (
-            <div
-              key={eventIndex}
-              className={styles.event}
-              onClick={() => handleEventClick(eventItem)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handleEventClick(eventItem);
-                }
-              }}
-            >
-              <span className={styles.timeContainer}>
-                <span className={styles.dot}></span>
-                <span className={styles.time}>
-                  {DateTime.fromISO(eventItem.start).toFormat("HH:mm")}
-                </span>
-              </span>
-              <p>{eventItem.topic}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  for (let week = 0; week < 5; week++) {
+    for (let day = 0; day < 5; day++) {
+      const cellDate = startDate.plus({ days: week * 7 + day });
+      const isCurrentMonth = cellDate.month === month;
+      const dayEvents = events.filter((event) =>
+        DateTime.fromISO(event.start).hasSame(cellDate, "day")
+      );
+      const isCurrentDay = isToday(cellDate);
 
-  const totalCells = 42;
-  const remainingCells = totalCells - cells.length;
-  for (let day = 1; day <= remainingCells; day++) {
-    const nextMonthDay = DateTime.local(year, month, daysInMonth).plus({
-      days: day,
-    });
-    const cellDate = nextMonthDay;
-    const dayEvents = events.filter((e) =>
-      DateTime.fromISO(e.start).hasSame(cellDate, "day")
-    );
-    cells.push(
-      <div
-        key={`next-${nextMonthDay.day}`}
-        className={`${styles.cell} ${styles.otherMonth}`}
-      >
-        <h3 className={styles.dayNumber}>{nextMonthDay.day}</h3>
-        <div className={styles.events}>
-          {dayEvents.map((ev, idx) => (
-            <div
-              key={idx}
-              className={styles.event}
-              onClick={() => handleEventClick(ev)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handleEventClick(ev);
-                }
-              }}
-            >
-              <span className={styles.timeContainer}>
-                <span className={styles.dot}></span>
-                <span className={styles.time}>
-                  {DateTime.fromISO(ev.start).toFormat("HH:mm")}
+      cells.push(
+        <div
+          key={`${cellDate.year}-${cellDate.month}-${cellDate.day}`}
+          className={`${styles.cell} ${!isCurrentMonth ? styles.otherMonth : ""} ${cellDate.day === 1 && isCurrentMonth ? "firstCell" : ""} ${isCurrentDay ? styles.today : ""}`}
+        >
+          <h3 className={styles.dayNumber}>{cellDate.day}</h3>
+          <div className={styles.events}>
+            {dayEvents.map((eventItem, eventIndex) => (
+              <div
+                key={eventIndex}
+                className={styles.event}
+                onClick={() => handleEventClick(eventItem)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleEventClick(eventItem);
+                  }
+                }}
+              >
+                <span className={styles.timeContainer}>
+                  <span className={styles.dot}></span>
+                  <span className={styles.time}>
+                    {DateTime.fromISO(eventItem.start).toFormat("HH:mm")}
+                  </span>
                 </span>
-              </span>
-              <p>{ev.topic}</p>
-            </div>
-          ))}
+                <p>{eventItem.topic}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   return (
