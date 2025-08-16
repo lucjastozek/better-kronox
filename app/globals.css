@@ -219,3 +219,11 @@ button {
   font-size: 0.7rem;
   font-size: clamp(0.7rem, 0.12rem + 0.68vw, 1.75rem);
 }
+
+svg[data-testid="ArrowDropDownIcon"] {
+  color: rgb(var(--foreground));
+}
+
+fieldset {
+  border: none !important;
+}

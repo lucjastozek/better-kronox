@@ -4,8 +4,11 @@ import ical from "ical";
 import * as cheerio from "cheerio";
 import ICalEvent from "@/utils/interfaces/ICalEvent";
 
+// const PARAMS =
+//   "startDatum=idag&intervallTyp=a&intervallAntal=1&forklaringar=true&sokMedAND=false&resurser=k.KD400C-20251-K3943-%2Cp.TGIDE24h1%2C";
+
 const PARAMS =
-  "startDatum=idag&intervallTyp=a&intervallAntal=1&forklaringar=true&sokMedAND=false&resurser=k.KD400C-20251-K3943-%2Cp.TGIDE24h1%2C";
+  "startDatum=idag&intervallTyp=a&intervallAntal=1&forklaringar=true&sokMedAND=false&resurser=k.KD400C-20251-K3943-%2Cp.TGIDE25h1%2C";
 
 async function getSignatures(params: string): Promise<{
   [key: string]: string;
