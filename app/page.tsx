@@ -1,6 +1,6 @@
 "use client";
 import { DateTime } from "luxon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
 import CalendarHeader from "@/components/CalendarHeader/CalendarHeader";
@@ -85,14 +85,15 @@ export default function Home() {
 
   const filteredEvents = filterEventsByView(events, currentDate, currentView);
 
-  useState(() => {
+  useEffect(() => {
     if (isMobile) {
       setCurrentView(VIEW_TYPES.DAY);
     } else {
       setCurrentView(VIEW_TYPES.WEEK);
     }
     navigateToWorkingDay();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMobile]);
 
   return (
     <main className={styles.main}>
