@@ -18,6 +18,7 @@ interface TimetableViewProps {
   currentView: ViewType;
   events: ICalEvent[];
   onCellSizeChange: Dispatch<SetStateAction<CellSize>>;
+  onDayClick?: (date: DateTime) => void;
 }
 
 export default function TimetableView({
@@ -25,6 +26,7 @@ export default function TimetableView({
   currentView,
   events,
   onCellSizeChange,
+  onDayClick,
 }: TimetableViewProps) {
   const renderView = () => {
     const commonProps = {
@@ -38,7 +40,7 @@ export default function TimetableView({
       case VIEW_TYPES.WEEK:
         return <TimetableWeek {...commonProps} />;
       case VIEW_TYPES.MONTH:
-        return <TimetableMonth {...commonProps} events={events} />;
+        return <TimetableMonth {...commonProps} events={events} onDayClick={onDayClick} />;
       default:
         return null;
     }

@@ -41,6 +41,24 @@
   min-height: 0;
 }
 
+.clickableDay {
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.clickableDay:hover {
+  background-color: rgba(var(--foreground), 0.08);
+}
+
+.clickableDay:focus {
+  outline: 2px solid rgba(var(--foreground), 0.5);
+  outline-offset: -2px;
+}
+
+.clickableDay:active {
+  transform: scale(0.98);
+}
+
 .otherMonth {
   opacity: 0.4;
 }

@@ -17,6 +17,7 @@ interface TimetableProps {
     }>
   >;
   events?: ICalEvent[];
+  onDayClick?: (date: DateTime) => void;
 }
 
 export default function TimetableMonth({
@@ -24,6 +25,7 @@ export default function TimetableMonth({
   locale = "en",
   setCellSize,
   events = [],
+  onDayClick,
 }: TimetableProps) {
   const gridRef = useRef<HTMLDivElement>(null);
   const [showOverlay, setShowOverlay] = useState(false);
@@ -33,6 +35,19 @@ export default function TimetableMonth({
   const handleEventClick = (event: ICalEvent) => {
     setSelectedEvent(event);
     setShowOverlay(true);
+  };
+
+  const handleDayClick = (
+    dayDate: DateTime,
+    event: React.MouseEvent | React.KeyboardEvent
+  ) => {
+    if ((event.target as HTMLElement).closest(`.${styles.event}`)) {
+      return;
+    }
+
+    if (onDayClick) {
+      onDayClick(dayDate);
+    }
   };
 
   const closeOverlay = () => {
@@ -132,7 +147,16 @@ export default function TimetableMonth({
       cells.push(
         <div
           key={`${cellDate.year}-${cellDate.month}-${cellDate.day}`}
-          className={`${styles.cell} ${!isCurrentMonth ? styles.otherMonth : ""} ${cellDate.day === 1 && isCurrentMonth ? "firstCell" : ""} ${isCurrentDay ? styles.today : ""}`}
+          className={`${styles.cell} ${!isCurrentMonth ? styles.otherMonth : ""} ${cellDate.day === 1 && isCurrentMonth ? "firstCell" : ""} ${isCurrentDay ? styles.today : ""} ${styles.clickableDay}`}
+          onClick={(e) => handleDayClick(cellDate, e)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleDayClick(cellDate, e);
+            }
+          }}
         >
           <h3 className={styles.dayNumber}>{cellDate.day}</h3>
           <div className={styles.events}>

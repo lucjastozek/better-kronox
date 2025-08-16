@@ -74,6 +74,11 @@ export default function Home() {
     setCurrentView(view);
   };
 
+  const handleDayClick = (date: DateTime) => {
+    setCurrentDate(date);
+    setCurrentView(VIEW_TYPES.DAY);
+  };
+
   useKeyboardNavigation({
     onNext: handleNext,
     onPrevious: handlePrevious,
@@ -112,6 +117,7 @@ export default function Home() {
         currentView={currentView}
         events={events}
         onCellSizeChange={setCellSize}
+        onDayClick={handleDayClick}
       />
 
       {isLoading && <LoadingIndicator />}
