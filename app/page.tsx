@@ -25,7 +25,7 @@ export default function Home() {
     height: 0,
   });
 
-  const { windowWidth, isMobile } = useResponsiveLayout();
+  const { isMobile } = useResponsiveLayout();
   const { events, isLoading } = useEvents();
 
   // auto-navigate to next working day if today is weekend
@@ -120,7 +120,6 @@ export default function Home() {
         events={filteredEvents}
         currentView={currentView}
         cellSize={cellSize}
-        windowWidth={windowWidth}
       />
     </main>
   );

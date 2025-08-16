@@ -176,17 +176,17 @@ button {
 
 .overlayContainer {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-flow: column wrap;
-  overflow: visible;
   z-index: 1000;
   pointer-events: none;
+  padding: 1rem;
 }
 
 .overlay-backdrop {
@@ -195,7 +195,7 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.3);
   z-index: 999;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
@@ -216,6 +216,7 @@ button {
   max-width: clamp(31.25rem, -20.5rem + 60.63vw, 125rem);
   min-width: 300px;
   max-height: 80vh;
+  width: 100%;
   z-index: 1001;
   box-shadow:
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
@@ -359,9 +360,9 @@ button {
 
 @media (max-width: 768px) {
   .overlay {
-    max-width: 90vw;
-    max-height: 90vh;
-    margin: 1rem;
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+    min-width: 280px;
   }
 
   .overlay-header {
@@ -370,6 +371,10 @@ button {
 
   .overlay-content {
     padding: 0 1rem 1rem;
+  }
+
+  .overlay-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
   }
 }
 

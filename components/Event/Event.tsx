@@ -10,7 +10,6 @@ interface EventProps {
   locations: string[];
   course: string;
   style: EventStyle;
-  width: number;
 }
 
 interface EventStyle {
@@ -28,12 +27,10 @@ export default function Event({
   locations,
   style,
   course,
-  width,
 }: EventProps) {
   const [showOverlay, setShowOverlay] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  const isDesktop = () => width > UI_CONSTANTS.MOBILE_BREAKPOINT;
   const getEventHeight = () => parseInt(style.height.split("px")[0]);
   const shouldShowDetails = () =>
     getEventHeight() > UI_CONSTANTS.EVENT_HEIGHT_THRESHOLDS.LARGE;
@@ -45,19 +42,13 @@ export default function Event({
   };
 
   const toggleOverlay = () => {
-    if (showOverlay) {
-      setShowOverlay(false);
-    } else if (isDesktop()) {
-      setShowOverlay(true);
-    }
+    setShowOverlay(!showOverlay);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      if (isDesktop()) {
-        setShowOverlay(!showOverlay);
-      }
+      setShowOverlay(!showOverlay);
     }
   };
 
@@ -159,8 +150,6 @@ export default function Event({
       <div
         className="overlayContainer"
         style={{
-          top: style.top,
-          left: style.left,
           visibility: showOverlay ? "visible" : "hidden",
         }}
       >

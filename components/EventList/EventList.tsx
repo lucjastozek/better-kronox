@@ -19,14 +19,12 @@ interface EventListProps {
   events: ICalEvent[];
   currentView: ViewType;
   cellSize: CellSize;
-  windowWidth: number;
 }
 
 export default function EventList({
   events,
   currentView,
   cellSize,
-  windowWidth,
 }: EventListProps) {
   const calculateEventStyle = (event: ICalEvent) => {
     const startHour = getEventStartHour(event);
@@ -61,7 +59,6 @@ export default function EventList({
       {events.map((event, index) => (
         <Event
           key={index}
-          width={windowWidth}
           course={event.course}
           teachers={event.signature}
           topic={event.topic}
