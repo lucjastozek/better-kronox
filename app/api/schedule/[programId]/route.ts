@@ -121,10 +121,10 @@ const extractTopic = (summary: string): string => {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { programId: string } }
+  { params }: { params: Promise<{ programId: string }> }
 ) {
   try {
-    const programId = params.programId;
+    const { programId } = await params;
     const program = getProgramById(programId);
 
     console.log(programId);
