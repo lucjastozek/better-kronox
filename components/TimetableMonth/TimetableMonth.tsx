@@ -186,7 +186,7 @@ export default function TimetableMonth({
                   {DateTime.fromISO(ev.start).toFormat("HH:mm")}
                 </span>
               </span>
-              {ev.topic}
+              <p>{ev.topic}</p>
             </div>
           ))}
         </div>
@@ -231,8 +231,7 @@ export default function TimetableMonth({
                   {DateTime.fromISO(ev.start).toFormat("HH:mm")}
                 </span>
               </span>
-
-              {ev.topic}
+              <p>{ev.topic}</p>
             </div>
           ))}
         </div>
