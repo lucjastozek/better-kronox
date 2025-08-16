@@ -224,8 +224,8 @@ export default function Home() {
                   course={event.course}
                   teachers={event.signature}
                   topic={event.topic}
-                  startHour={DateTime.fromISO(event.start).toFormat("HH:mm")}
-                  endHour={DateTime.fromISO(event.end).toFormat("HH:mm")}
+                  startDate={event.start}
+                  endDate={event.end}
                   locations={event.locations}
                   style={{
                     top: `${cellSize.top + (DateTime.fromISO(event.start).hour - 8 + DateTime.fromISO(event.start).minute / 60) * cellSize.height}px`,
@@ -243,8 +243,8 @@ export default function Home() {
                   course={event.course}
                   teachers={event.signature}
                   topic={event.topic}
-                  startHour={DateTime.fromISO(event.start).toFormat("HH:mm")}
-                  endHour={DateTime.fromISO(event.end).toFormat("HH:mm")}
+                  startDate={event.start}
+                  endDate={event.end}
                   locations={event.locations}
                   style={{
                     top: `${cellSize.top + (DateTime.fromISO(event.start).hour - 8 + DateTime.fromISO(event.start).minute / 60) * cellSize.height}px`,

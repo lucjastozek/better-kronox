@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { useState, useEffect, useRef } from "react";
 
 interface Style {
@@ -8,8 +9,8 @@ interface Style {
 }
 
 interface EventProps {
-  startHour: string;
-  endHour: string;
+  startDate: string;
+  endDate: string;
   topic: string;
   teachers: string[];
   locations: string[];
@@ -19,8 +20,8 @@ interface EventProps {
 }
 
 export default function Event({
-  startHour,
-  endHour,
+  startDate,
+  endDate,
   topic,
   teachers,
   locations,
@@ -108,7 +109,8 @@ export default function Event({
             {topic}
           </h2>
           <h3>
-            {startHour} - {endHour}
+            {DateTime.fromISO(startDate).toFormat("HH:mm")} -{" "}
+            {DateTime.fromISO(endDate).toFormat("HH:mm")}
           </h3>
         </div>
         {parseInt(style.height.split("px")[0]) > 150 && (
@@ -158,7 +160,9 @@ export default function Event({
               <h2 id="overlay-title">{topic}</h2>
               <h3>{course}</h3>
               <h3>
-                {startHour} - {endHour}
+                {DateTime.fromISO(startDate).toFormat("cccc, dd MMMM yyyy  ⋅ ")}
+                {DateTime.fromISO(startDate).toFormat("HH:mm")} -{" "}
+                {DateTime.fromISO(endDate).toFormat("HH:mm")}
               </h3>
             </div>
             <button

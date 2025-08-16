@@ -72,6 +72,27 @@
   font-size: clamp(0.7rem, 0.1rem + 0.7vw, 1.5rem);
   color: rgb(var(--foreground));
   opacity: 0.9;
+  cursor: pointer;
+  padding: 0.2rem 0.3rem;
+  border-radius: 0.3rem;
+  transition: all 0.2s ease;
+  margin: 0.1rem 0;
+}
+
+.event:hover {
+  background-color: rgba(var(--eventbg), 0.1);
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.event:focus {
+  outline: 2px solid var(--eventbg);
+  outline-offset: 1px;
+  background-color: rgba(var(--eventbg), 0.1);
+}
+
+.event:active {
+  transform: translateY(0);
 }
 
 .timeContainer {
