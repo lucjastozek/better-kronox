@@ -71,6 +71,9 @@ export default function Home() {
   };
 
   const handleViewChange = (view: ViewType) => {
+    if (isMobile && view === VIEW_TYPES.WEEK) {
+      return;
+    }
     setCurrentView(view);
   };
 
@@ -84,7 +87,7 @@ export default function Home() {
     onPrevious: handlePrevious,
     onToday: handleToday,
     onDayView: () => setCurrentView(VIEW_TYPES.DAY),
-    onWeekView: () => setCurrentView(VIEW_TYPES.WEEK),
+    onWeekView: () => !isMobile && setCurrentView(VIEW_TYPES.WEEK),
     onMonthView: () => setCurrentView(VIEW_TYPES.MONTH),
   });
 
@@ -108,7 +111,6 @@ export default function Home() {
         showMobile={isMobile}
         onPrevious={handlePrevious}
         onNext={handleNext}
-        onToday={handleToday}
         onViewChange={handleViewChange}
       />
 

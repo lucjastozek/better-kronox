@@ -22,11 +22,6 @@ export const getWeekRange = (
   return { start, end };
 };
 
-export const formatWeekRange = (date: DateTime, locale = "en"): string => {
-  const { start, end } = getWeekRange(date);
-  return `${start.setLocale(locale).toFormat("DDD")} - ${end.setLocale(locale).toFormat("DDD")}`;
-};
-
 export const isToday = (date: DateTime): boolean => {
   return date.hasSame(DateTime.now(), "day");
 };
