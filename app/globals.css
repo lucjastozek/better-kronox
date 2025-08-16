@@ -413,3 +413,7 @@ div[role="combobox"]:focus-within {
 .event > div {
   width: 100%;
 }
+
+.header > h1 {
+  text-align: center;
+}
