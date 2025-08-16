@@ -120,7 +120,8 @@
 }
 
 .event p {
-  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .timeContainer {
