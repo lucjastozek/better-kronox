@@ -337,7 +337,6 @@ button {
   margin-bottom: 0.25rem;
 }
 
-/* Animation for smooth entrance */
 @keyframes overlayFadeIn {
   from {
     opacity: 0;
@@ -358,7 +357,6 @@ button {
   }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .overlay {
     max-width: 90vw;
@@ -375,7 +373,6 @@ button {
   }
 }
 
-/* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   .overlay,
   .overlay-backdrop,
