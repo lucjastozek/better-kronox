@@ -417,3 +417,9 @@ div[role="combobox"]:focus-within {
 .header > h1 {
   text-align: center;
 }
+
+@media (orientation: portrait) {
+  .header {
+    width: 90dvw;
+  }
+}

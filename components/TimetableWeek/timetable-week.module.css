@@ -71,3 +71,9 @@
   border-inline: none;
   z-index: 4;
 }
+
+@media (orientation: portrait) {
+  .grid {
+    width: 90dvw;
+  }
+}
