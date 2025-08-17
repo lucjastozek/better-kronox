@@ -196,9 +196,7 @@ export default function Event({
               <div className="overlay-section">
                 <h4>Teachers</h4>
                 {teachers.map((teacher, index) => (
-                  <p key={index} style={additionalStyles.p}>
-                    👤 {teacher}
-                  </p>
+                  <p key={index}>👤 {teacher}</p>
                 ))}
               </div>
             )}
@@ -206,9 +204,7 @@ export default function Event({
               <div className="overlay-section">
                 <h4>Locations</h4>
                 {locations.map((location, index) => (
-                  <p key={index} style={additionalStyles.p}>
-                    🏫 {location}
-                  </p>
+                  <p key={index}>🏫 {location}</p>
                 ))}
               </div>
             )}
