@@ -25,7 +25,7 @@ export default function CalendarHeader({
   return (
     <header className="header">
       <div className="headerDate">
-        <div>
+        <div className="buttons">
           <button className="iconButton" onClick={onPrevious}>
             <NavigateBeforeIcon />
           </button>

@@ -104,8 +104,8 @@ a {
 }
 
 .headerDate > h1 {
-  font-size: 1.2rem;
-  font-size: clamp(1.2rem, -0.01rem + 1.4vw, 3.4rem);
+  font-size: 1rem;
+  font-size: clamp(1rem, 0.17rem + 0.97vw, 2.5rem);
   font-weight: 600;
 }
 
@@ -141,8 +141,15 @@ button {
 .iconButton {
   background-color: rgb(var(--background));
   border: none;
-  border-radius: 0.6rem;
-  border-radius: clamp(0.6rem, 0.7vw, 1.7rem);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 0;
 }
 
 .mobileViewToggle {
@@ -172,10 +179,12 @@ button {
 }
 
 .iconButton > svg {
-  width: 2.25rem;
-  width: clamp(2.25rem, 1.4rem + 1vw, 3.75rem);
-  height: 2.25rem;
-  height: clamp(2.25rem, 1.4rem + 1vw, 3.75rem);
+  width: clamp(2rem, 0.34rem + 1.94vw, 5rem);
+  height: clamp(2rem, 0.34rem + 1.94vw, 5rem);
+}
+
+.header > p {
+  font-size: clamp(1rem, 0.17rem + 0.97vw, 2.5rem);
 }
 
 .todayButton:hover {
