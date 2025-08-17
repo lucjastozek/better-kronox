@@ -10,6 +10,13 @@ interface EventProps {
   locations: string[];
   course: string;
   style: EventStyle;
+  additionalStyles: AdditionalStyles;
+}
+
+interface AdditionalStyles {
+  p: {
+    fontSize: string;
+  };
 }
 
 interface EventStyle {
@@ -27,6 +34,7 @@ export default function Event({
   locations,
   style,
   course,
+  additionalStyles,
 }: EventProps) {
   const [showOverlay, setShowOverlay] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -125,14 +133,18 @@ export default function Event({
             {hasTeachers() && (
               <div>
                 {teachers.map((teacher, index) => (
-                  <p key={index}>👤 {teacher}</p>
+                  <p key={index} style={additionalStyles.p}>
+                    👤 {teacher}
+                  </p>
                 ))}
               </div>
             )}
             {hasLocations() && (
               <div>
                 {locations.map((location, index) => (
-                  <p key={index}>🏫 {location}</p>
+                  <p key={index} style={additionalStyles.p}>
+                    🏫 {location}
+                  </p>
                 ))}
               </div>
             )}
@@ -184,7 +196,9 @@ export default function Event({
               <div className="overlay-section">
                 <h4>Teachers</h4>
                 {teachers.map((teacher, index) => (
-                  <p key={index}>👤 {teacher}</p>
+                  <p key={index} style={additionalStyles.p}>
+                    👤 {teacher}
+                  </p>
                 ))}
               </div>
             )}
@@ -192,7 +206,9 @@ export default function Event({
               <div className="overlay-section">
                 <h4>Locations</h4>
                 {locations.map((location, index) => (
-                  <p key={index}>🏫 {location}</p>
+                  <p key={index} style={additionalStyles.p}>
+                    🏫 {location}
+                  </p>
                 ))}
               </div>
             )}

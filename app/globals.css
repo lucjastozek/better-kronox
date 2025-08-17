@@ -81,13 +81,12 @@ a {
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: 0.9rem;
-  font-size: clamp(0.9rem, 0.15rem + 0.87vw, 2.25rem);
+  font-size: inherit;
 }
 
 .event h3 {
   font-size: 0.9rem;
-  font-size: clamp(0.9rem, 0.15rem + 0.87vw, 2.25rem);
+  font-size: inherit;
   font-weight: 400;
 }
 
@@ -333,6 +332,7 @@ button {
     transform 0.2s ease,
     box-shadow 0.2s ease;
   cursor: pointer;
+  gap: 1rem;
 }
 
 .event:hover {

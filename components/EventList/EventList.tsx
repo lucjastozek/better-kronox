@@ -214,18 +214,29 @@ export default function EventList({
       top: `${cellSize.top + (startHour - UI_CONSTANTS.WORKING_HOURS.START) * cellSize.height}px`,
       width: `${eventWidth}px`,
       height: `${duration * cellSize.height}px`,
+      fontSize: `clamp(${0.9 / event.totalColumns}rem, ${0.15 / event.totalColumns}rem + ${0.87 / event.totalColumns}vw, ${2.25 / event.totalColumns}rem)`,
+      padding: `${1 / event.totalColumns}rem`,
+      borderRadius: `${1 / event.totalColumns}rem`,
+    };
+
+    const additionalStyles = {
+      p: {
+        fontSize: `clamp(${0.7 / event.totalColumns}rem, ${0.12 / event.totalColumns}rem + ${0.68 / event.totalColumns}vw, ${1.75 / event.totalColumns}rem)`,
+      },
     };
 
     if (currentView === VIEW_TYPES.WEEK) {
       return {
         ...baseStyle,
         left: `${cellSize.left + (startDateTime.weekday - 1) * cellSize.width + leftOffset}px`,
+        additionalStyles: additionalStyles,
       };
     }
 
     return {
       ...baseStyle,
       left: `${cellSize.left + leftOffset}px`,
+      additionalStyles: additionalStyles,
     };
   };
 
@@ -247,6 +258,7 @@ export default function EventList({
           endDate={event.end}
           locations={event.locations}
           style={calculateEventStyle(event)}
+          additionalStyles={calculateEventStyle(event).additionalStyles}
         />
       ))}
     </>
