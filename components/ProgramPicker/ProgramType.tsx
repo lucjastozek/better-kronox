@@ -21,7 +21,7 @@ export default function ProgramType({
         : "Two-year Master's";
   return (
     <div className={styles.typeContainer}>
-      <h3>{typeDisplayName}</h3>
+      <h2>{typeDisplayName}</h2>
       <div className={styles.buttonGrid}>
         {PROGRAMS.filter((program) => program.type === type).map((program) => (
           <ProgramButton

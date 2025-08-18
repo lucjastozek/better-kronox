@@ -26,10 +26,14 @@ export default function CalendarHeader({
     <header className="header">
       <div className="headerDate">
         <div className="buttons">
-          <button className="iconButton" onClick={onPrevious}>
+          <button
+            className="iconButton"
+            onClick={onPrevious}
+            aria-label="previous"
+          >
             <NavigateBeforeIcon />
           </button>
-          <button className="iconButton" onClick={onNext}>
+          <button className="iconButton" onClick={onNext} aria-label="next">
             <NavigateNextIcon />
           </button>
         </div>
