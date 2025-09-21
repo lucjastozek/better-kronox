@@ -151,6 +151,14 @@ export default function Event({
         <div
           className={`overlay-backdrop ${showOverlay ? "overlay-backdrop-show" : ""}`}
           onClick={() => setShowOverlay(false)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              setShowOverlay(false);
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Close overlay"
         />
       )}
 

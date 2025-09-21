@@ -192,6 +192,14 @@ export default function TimetableMonth({
         <div
           className={`overlay-backdrop ${showOverlay ? "overlay-backdrop-show" : ""}`}
           onClick={closeOverlay}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              closeOverlay();
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Close overlay"
         />
       )}
 
