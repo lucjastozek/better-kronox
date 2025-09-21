@@ -30,6 +30,7 @@
     "cheerio": "^1.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
+    "eslint-plugin-react-you-might-not-need-an-effect": "^0.5.1",
     "ical": "^0.8.0",
     "luxon": "^3.5.0",
     "typescript": "^5"

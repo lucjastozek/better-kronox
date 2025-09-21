@@ -34,7 +34,7 @@ export default function TimetableMonth({
 
   const handleEventClick = (event: ICalEvent) => {
     setSelectedEvent(event);
-    setShowOverlay(true);
+    openOverlay();
   };
 
   const handleDayClick = (
@@ -50,49 +50,35 @@ export default function TimetableMonth({
     }
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      overlayRef.current &&
+      !overlayRef.current.contains(event.target as Node)
+    ) {
+      closeOverlay();
+    }
+  };
+
+  const handleEscape = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      closeOverlay();
+    }
+  };
+
+  const openOverlay = () => {
+    setShowOverlay(true);
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    document.body.style.overflow = "hidden";
+  };
+
   const closeOverlay = () => {
     setShowOverlay(false);
     setSelectedEvent(null);
+    document.removeEventListener("mousedown", handleClickOutside);
+    document.removeEventListener("keydown", handleEscape);
+    document.body.style.overflow = "unset";
   };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        overlayRef.current &&
-        !overlayRef.current.contains(event.target as Node)
-      ) {
-        setShowOverlay(false);
-      }
-    };
-
-    if (showOverlay) {
-      document.addEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "unset";
-    };
-  }, [showOverlay]);
-
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setShowOverlay(false);
-      }
-    };
-
-    if (showOverlay) {
-      document.addEventListener("keydown", handleEscape);
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [showOverlay]);
 
   const updateCellInfo = () => {
     if (gridRef.current) {

@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { UI_CONSTANTS } from "@/utils/constants/AppConstants";
 
 interface EventProps {
@@ -49,8 +49,41 @@ export default function Event({
     return 3;
   };
 
+  const closeOverlay = () => {
+    setShowOverlay(false);
+    document.removeEventListener("mousedown", handleClickOutside);
+    document.removeEventListener("keydown", handleEscape);
+    document.body.style.overflow = "unset";
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      overlayRef.current &&
+      !overlayRef.current.contains(event.target as Node)
+    ) {
+      closeOverlay();
+    }
+  };
+
+  const handleEscape = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      closeOverlay();
+    }
+  };
+
+  const openOverlay = () => {
+    setShowOverlay(true);
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    document.body.style.overflow = "hidden";
+  };
+
   const toggleOverlay = () => {
-    setShowOverlay(!showOverlay);
+    if (showOverlay) {
+      closeOverlay();
+    } else {
+      openOverlay();
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -65,44 +98,6 @@ export default function Event({
   const hasLocations = () =>
     locations && locations.length > 0 && locations[0] !== "";
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        overlayRef.current &&
-        !overlayRef.current.contains(event.target as Node)
-      ) {
-        setShowOverlay(false);
-      }
-    };
-
-    if (showOverlay) {
-      document.addEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "unset";
-    };
-  }, [showOverlay]);
-
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setShowOverlay(false);
-      }
-    };
-
-    if (showOverlay) {
-      document.addEventListener("keydown", handleEscape);
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [showOverlay]);
   return (
     <>
       <div
